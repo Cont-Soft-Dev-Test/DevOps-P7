@@ -37,11 +37,11 @@ Feature: TopUp Account
     Scenario: Payment service rejects the request
       Given Danny has 10 euro in his euro Revolut account
       And Danny selects 100 euro as the topUp amount
-      When The payment is accepted
-      Then The new balance of his euro account should now be 110
+      When The payment is rejected
+      Then The new balance of his euro account should now be 10
 
     Scenario: Payment service accepts the request
       Given Danny has 10 euro in his euro Revolut account
       And Danny selects 100 euro as the topUp amount
-      When The payment is rejected
-      Then The new balance of his euro account should now be 10
+      When The payment is accepted
+      Then The new balance of his euro account should now be 110
