@@ -8,7 +8,7 @@ import org.junit.Assert;
 import revolut.PaymentService;
 import revolut.Person;
 
-public class StepDefinitions {
+public class TopUpStepDefinitions {
 
     private double topUpAmount;
     PaymentService topUpMethod;
