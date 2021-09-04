@@ -8,4 +8,9 @@ public class ParameterTypes {
     public PaymentService paymentService(String type){
         return new PaymentService(type);
     }
+
+    @ParameterType("accepted|rejected")
+    public boolean acceptedOrRejected(String word) {
+        return word.equals("accepted");
+    }
 }
