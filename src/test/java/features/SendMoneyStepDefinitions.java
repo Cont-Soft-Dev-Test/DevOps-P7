@@ -8,48 +8,38 @@ import io.cucumber.java.en.When;
 import org.junit.Assert;
 import revolut.Person;
 
+import java.util.HashMap;
+
 public class SendMoneyStepDefinitions {
 
+    HashMap<String, Person> people;
     Person danny, larry;
 
     @Before//Before hooks run before the first step in each scenario
     public void setUp() {
         //We can use this to set up test data for each scenario
-        danny = new Person("Danny");
-        larry = new Person("Larry");
+        people = new HashMap<>();
+        people.put("Danny", new Person("Danny"));
+        people.put("Larry", new Person("Larry"));
     }
 
-    @Given("Danny has {double} euros on his Revolut account")
-    public void dannyHasEurosOnHisRevolutAccount(double startingBalance) {
-        danny.setAccountBalance(startingBalance);
+    @Given("{word} has {double} euros on his Revolut account")
+    public void personHasEurosOnHisRevolutAccount(String person, double startingBalance) {
+        people.get(person).setAccountBalance(startingBalance);
     }
 
-    @And("Larry has {double} euros on his Revolut account")
-    public void larryHasEurosOnHisRevolutAccount(double startingBalance) {
-        larry.setAccountBalance(startingBalance);
+    @When("{word} sends {double} euros to {word}")
+    public void personSendsEurosToAnotherPerson(String person, double sendAmount, String anotherPerson) {
+        people.get(person).getAccount("EUR").addFunds(-sendAmount);
+        people.get(anotherPerson).getAccount("EUR").addFunds(sendAmount);
     }
 
-    @When("Danny sends {double} euros to Larry")
-    public void dannySendsEurosToLarry(double sendAmount) {
-        danny.getAccount("EUR").addFunds(-sendAmount);
-        larry.getAccount("EUR").addFunds(sendAmount);
-    }
-
-    @Then("Danny will have {double} euros on his Revolut account")
-    public void dannyWillHaveEurosOnHisRevolutAccount(double newBalance) {
+    @Then("{word} will have {double} euros on his Revolut account")
+    public void personWillHaveEurosOnHisRevolutAccount(String person, double newBalance) {
         //Act
-        double actualResult = danny.getAccount("EUR").getBalance();
+        double actualResult = people.get(person).getAccount("EUR").getBalance();
         //Assert
         Assert.assertEquals(newBalance, actualResult,0);
-        System.out.println("Danny's new final balance is: " + actualResult);
-    }
-
-    @And("Larry will have {double} euros on this Revolut account")
-    public void larryWillHaveEurosOnThisRevolutAccount(double newBalance) {
-        //Act
-        double actualResult = larry.getAccount("EUR").getBalance();
-        //Assert
-        Assert.assertEquals(newBalance, actualResult,0);
-        System.out.println("Larry's new final balance is: " + actualResult);
+        System.out.println(person + "'s new final balance is: " + actualResult);
     }
 }
