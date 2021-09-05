@@ -6,4 +6,4 @@ Feature: Send money to a friend
     And Larry has 50 euros on his Revolut account
     When Danny sends 100 euros to Larry
     Then Danny will have 100 euros on his Revolut account
-    And Larry will have 150 euros on this Revolut account
+    And Larry will have 150 euros on his Revolut account
